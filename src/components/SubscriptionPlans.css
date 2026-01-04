@@ -1,0 +1,183 @@
+body {
+  background: black;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.hero {
+  height: 60vh;
+  background: radial-gradient(circle, #222, black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 64px;
+}
+
+.hero h1 {
+  font-size: 48px;
+}
+
+.hero p {
+  color: #aaa;
+  font-size: 18px;
+}
+
+.content {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.user-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto 40px;
+}
+
+.user-box input {
+  padding: 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+}
+
+.billing-toggle {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.billing-toggle button {
+  padding: 10px 24px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.billing-toggle .active {
+  background: #e50914;
+}
+
+.plans {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* 🔥 NETFLIX RED GLOW CARD */
+.plan-card {
+  background: linear-gradient(180deg, #141414, #0b0b0b);
+  padding: 30px;
+  width: 260px;
+  border-radius: 10px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(229, 9, 20, 0.15),
+    0 0 40px rgba(229, 9, 20, 0.05);
+}
+
+.plan-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(circle at top, rgba(229,9,20,0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.plan-card:hover {
+  transform: scale(1.07);
+  box-shadow:
+    0 0 30px rgba(229, 9, 20, 0.35),
+    0 0 60px rgba(229, 9, 20, 0.2);
+}
+
+.plan-card.selected {
+  border: 2px solid #e50914;
+  box-shadow:
+    0 0 40px rgba(229, 9, 20, 0.7),
+    0 0 80px rgba(229, 9, 20, 0.4);
+}
+
+.price {
+  font-size: 28px;
+  margin: 10px 0;
+}
+
+.plan-card button {
+  margin-top: 15px;
+  background: #e50914;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.confirm {
+  margin-top: 40px;
+  padding: 14px 40px;
+  background: #e50914;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.success {
+  margin-top: 20px;
+  color: #4caf50;
+  font-weight: 600;
+}
+.confirm-box {
+  margin-top: 40px;
+  padding: 30px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #111;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(229, 9, 20, 0.3);
+  text-align: left;
+}
+
+.confirm-box h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.confirm-box p {
+  margin: 6px 0;
+}
+
+.final-price {
+  margin-top: 15px;
+  font-size: 22px;
+  color: #e50914;
+  font-weight: bold;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.cancel {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+}
