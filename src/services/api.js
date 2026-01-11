@@ -1,16 +1,20 @@
 import axios from "axios";
 
+const API = axios.create({
+  baseURL: "https://netflix-subscription-production.up.railway.app",
+});
+
 export const subscribePlan = async (
   username,
-  planName,
+  plan,
   duration,
   billingType
 ) => {
-  const res = await axios.post("http://localhost:5001/api/subscribe", {
+  const res = await API.post("/subscribe", {
     username,
-    planName,
+    plan,
     duration,
-    billingType
+    billingType,
   });
   return res.data;
 };

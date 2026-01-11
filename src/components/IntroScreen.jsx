@@ -1,51 +1,44 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import "./IntroScreen.css";
 
 export default function IntroScreen({ onFinish }) {
   const videoRef = useRef(null);
-  const [soundEnabled, setSoundEnabled] = useState(false);
 
-  // Start intro only after user enables sound
-  const startIntroWithSound = () => {
+  const handleEnableSound = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.currentTime = 0;   // 🔁 restart video
-    video.muted = false;
-    video.play().catch(() => {});
-    setSoundEnabled(true);
+    try {
+      video.muted = false;
+      await video.play();
+    } catch (err) {
+      console.error("Video play failed:", err);
+    }
+
+    // Go to next screen ONLY after video ends
+    video.onended = () => {
+      onFinish();
+    };
   };
 
-  // Auto move to main app AFTER intro completes
-  useEffect(() => {
-    if (!soundEnabled) return;
-
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.onended = () => onFinish();
-
-    return () => {
-      video.onended = null;
-    };
-  }, [soundEnabled, onFinish]);
-
   return (
-    <div className="intro-container" onClick={startIntroWithSound}>
+    <div className="intro-container">
       <video
         ref={videoRef}
-        src="/intro.mp4"
         className="intro-video"
         muted
         playsInline
         preload="auto"
-      />
+      >
+        <source
+          src={`${process.env.PUBLIC_URL}/intro.mp4`}
+          type="video/mp4"
+        />
+      </video>
 
-      {!soundEnabled && (
-        <div className="sound-overlay">
-          Tap to enable sound
-        </div>
-      )}
+      <button className="sound-btn" onClick={handleEnableSound}>
+        Enable Sound
+      </button>
     </div>
   );
 }
