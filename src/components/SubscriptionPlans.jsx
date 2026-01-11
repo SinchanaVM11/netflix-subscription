@@ -18,10 +18,10 @@ export default function SubscriptionPlans() {
   const [showConfirmBox, setShowConfirmBox] = useState(false);
   const [message, setMessage] = useState("");
 
-  // ─── REF FOR AUTO SCROLL ─────────────────────────
+  // ─── AUTO SCROLL REF ────────────────────────────
   const confirmRef = useRef(null);
 
-  // ─── AUTO SCROLL EFFECT ──────────────────────────
+  // ─── AUTO SCROLL EFFECT ─────────────────────────
   useEffect(() => {
     if (showConfirmBox && confirmRef.current) {
       confirmRef.current.scrollIntoView({
@@ -31,33 +31,42 @@ export default function SubscriptionPlans() {
     }
   }, [showConfirmBox]);
 
-  // ─── SUBSCRIBE HANDLER ───────────────────────────
+  // ─── SUBSCRIBE HANDLER ──────────────────────────
   const handleSubscribe = async () => {
+    console.log("🔥 Confirm Subscription clicked");
+
     if (!username || !selectedPlan) {
       alert("Enter username and select a plan");
       return;
     }
 
-    const durationInMonths =
-      billingType === "yearly" ? duration * 12 : duration;
+    try {
+      const durationInMonths =
+        billingType === "yearly" ? duration * 12 : duration;
 
-    const res = await subscribePlan(
-      username,
-      selectedPlan.name,
-      durationInMonths,
-      billingType
-    );
+      const res = await subscribePlan(
+        username,
+        selectedPlan.name,
+        durationInMonths,
+        billingType
+      );
 
-    setShowConfirmBox(false);
+      console.log("✅ Subscription success:", res);
 
-    setMessage(
-      `Subscribed (${billingType}) • Expires on ${new Date(
-        res.expiryDate
-      ).toDateString()}`
-    );
+      setShowConfirmBox(false);
+
+      setMessage(
+        `Subscribed (${billingType}) • Expires on ${new Date(
+          res.expiryDate
+        ).toDateString()}`
+      );
+    } catch (err) {
+      console.error("❌ Subscription failed:", err);
+      alert("Subscription failed. Please try again.");
+    }
   };
 
-  // ─── UI ──────────────────────────────────────────
+  // ─── UI ─────────────────────────────────────────
   return (
     <>
       <Navbar />
@@ -90,6 +99,7 @@ export default function SubscriptionPlans() {
 
           <div className="billing-toggle">
             <button
+              type="button"
               className={billingType === "monthly" ? "active" : ""}
               onClick={() => setBillingType("monthly")}
             >
@@ -97,6 +107,7 @@ export default function SubscriptionPlans() {
             </button>
 
             <button
+              type="button"
               className={billingType === "yearly" ? "active" : ""}
               onClick={() => setBillingType("yearly")}
             >
@@ -120,6 +131,7 @@ export default function SubscriptionPlans() {
               <p>{plan.screens} screens</p>
 
               <button
+                type="button"
                 onClick={() => {
                   setSelectedPlan(plan);
                   setShowConfirmBox(true);
@@ -131,7 +143,7 @@ export default function SubscriptionPlans() {
           ))}
         </div>
 
-        {/* CONFIRMATION BOX (AUTO-SCROLL TARGET) */}
+        {/* CONFIRMATION BOX */}
         {showConfirmBox && selectedPlan && (
           <div className="confirm-box" ref={confirmRef}>
             <h3>Confirm Your Plan</h3>
@@ -151,11 +163,16 @@ export default function SubscriptionPlans() {
             </p>
 
             <div className="confirm-actions">
-              <button className="confirm" onClick={handleSubscribe}>
+              <button
+                type="button"
+                className="confirm"
+                onClick={handleSubscribe}
+              >
                 Confirm Subscription
               </button>
 
               <button
+                type="button"
                 className="cancel"
                 onClick={() => setShowConfirmBox(false)}
               >
